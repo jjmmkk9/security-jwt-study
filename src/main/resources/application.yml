@@ -10,9 +10,9 @@ server:
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://127.0.0.1:3306/security?serverTimezone=Asia/Seoul?allowMultiQueries=true
-    username: root
-    password: 1q2w3e4r5t
+    url: jdbc:mariadb:web-study.ca7yqvnelwuw.ap-northeast-2.rds.amazonaws.com:3306/security?allowMultiQueries=true
+    username: admin
+    password: 1q2w3e4r
 
 jpa:
   hibernate:
