@@ -4,6 +4,8 @@ import com.example.security1.model.User;
 import com.example.security1.repository.UserRepository;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +55,7 @@ public class IndexController {
 
     @PostMapping("/join")
     public String join( User user){
-        user.setRole("USER");
+        user.setRole("ROLE_USER");
         String rawPassword = user.getPassword();
         String encPassword = encodePwd.encode(rawPassword);
         user.setPassword(encPassword);
@@ -61,5 +63,16 @@ public class IndexController {
         System.out.println(user);
 
         return "redirect:/loginForm";
+    }
+
+    @Secured("ROLE_ADMIN") //하나의 권한만 걸고싶으면 애초에 이것만 사용
+    @GetMapping("/info")
+    public @ResponseBody String info(){
+        return "개인정보";
+    }
+   @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/data")
+    public @ResponseBody String data(){
+        return "데이터";
     }
 }
