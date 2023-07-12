@@ -8,6 +8,20 @@ server:
       force: true
 
 spring:
+  profiles:
+    include: google
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 704782553703-bp7pl0s8nhlpei54o1bs0avch017v9il.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://web-study.ca7yqvnelwuw.ap-northeast-2.rds.amazonaws.com:3306/security?allowMultiQueries=true
@@ -20,3 +34,4 @@ jpa:
     naming:
       physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   show-sql: true
+

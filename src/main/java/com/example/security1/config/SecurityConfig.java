@@ -26,17 +26,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-       return http.authorizeRequests()
+       http.authorizeRequests()
                 .antMatchers("/user/**").authenticated() //authenticted 는 인증만 되면 들어갈 수 있음
                 .antMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                .and()
+               .csrf().disable()
                .formLogin().loginPage("/loginForm")
                .loginProcessingUrl("/login")// /login 주소가 호출되면 시큐리티가 낚아채허 대신 로그인을 진행해준다.... 개좋다
                .defaultSuccessUrl("/") //로그인에 성공하면 메인페이지로 defaultSuccessUrl
                .and()
-               .csrf().disable()
-               .build();
+               .oauth2Login()
+               .loginPage("/loginForm") //구글 로그인이 완료된 후 후처리가 필요함
+               .userInfoEndpoint()
+               .userService(principaOauth2UserService);
+
+               return http.build();
     }
 }
